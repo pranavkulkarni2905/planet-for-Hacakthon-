@@ -405,14 +405,14 @@ body {
 								<div class="step">
 
 									<div class="col-md-12 pt-2">
-										<label for="inputName5" class="form-label">Why should you be hired for this role?
+										<label for="inputName5" class="form-label"> Q. What motivates you to apply for this job?
 </label> <textarea type="text" class="form-control"
 											 
 											id="inputName5" name="ques1"></textarea>
 									</div>
 
 									<div class="col-md-12 pt-2">
-										<label for="inputName5" class="form-label">Are you ready to work 5 days a week, 4 hours a day?</label> <textarea type="text" class="form-control"
+										<label for="inputName5" class="form-label"> Q. Which is more important salary or work-life balance?</label> <textarea type="text" class="form-control"
 											 
 											id="inputName5" name="ques2"></textarea>
 									</div>

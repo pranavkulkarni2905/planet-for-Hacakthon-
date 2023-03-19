@@ -414,7 +414,7 @@ if (u == null) {
 															<div class="other">
 																<div class="other-info">
 																	<h2>
-																		<b><%=ur.getEduactionTitle1()%></b>
+																		<b><%=ur.getEduactionTitle1()%> (<%=ur.getEdu1() %>)</b>
 																	</h2>
 																	<hr>
 																	<small><strong>From :</strong><%=ur.getEducationFromYear1()%>
@@ -430,7 +430,7 @@ if (u == null) {
 																	if (eduTitle2 != null) {
 																	%>
 																	<h2>
-																		<b><%=ur.getEduactionTitle2()%></b>
+																		<b><%=ur.getEduactionTitle2()%>(<%=ur.getEdu3() %>)</b>
 																	</h2>
 																	<hr>
 																	<small><strong>From :</strong><%=ur.getEducationFromYear2()%>
@@ -446,7 +446,7 @@ if (u == null) {
 																	if (eduTitle3 != null) {
 																	%>
 																	<h2>
-																		<b><%=ur.getEduactionTitle3()%></b>
+																		<b><%=ur.getEduactionTitle3()%>(<%=ur.getEdu2() %>)</b>
 																	</h2>
 																	<hr>
 																	<small><strong>From :</strong><%=ur.getEducationFromYear3()%>
@@ -712,7 +712,12 @@ if (u == null) {
 													<textarea type="text" name="education_description1"
 														class="form-control" id="inputPassword5"><%=ur.getEducationDesctiption1()%></textarea>
 												</div>
-
+												<div class="col-md-4">
+													<label for="inputCity" class="form-label">Education Title
+														</label> <input type="text" name="edu1"
+														value="<%=ur.getEdu1()%>" class="form-control"
+														id="inputCity">
+												</div>
 
 
 
@@ -750,6 +755,12 @@ if (u == null) {
 																	<textarea type="text" name="education_description2"
 																		class="form-control" id="inputPassword5"><%=ur.getEducationDescription2()%></textarea>
 																</div>
+																<div class="col-md-4">
+													<label for="inputCity" class="form-label">Education Title
+														</label> <input type="text" name="edu2"
+														value="<%=ur.getEdu2()%>" class="form-control"
+														id="inputCity">
+												</div>
 
 															</div>
 														</div>
@@ -791,7 +802,12 @@ if (u == null) {
 																	<textarea type="text" name="education_description3"
 																		class="form-control" id="inputPassword5"><%=ur.getEducationDescription3()%></textarea>
 																</div>
-
+																			<div class="col-md-4">
+													<label for="inputCity" class="form-label">Education Title
+														</label> <input type="text" name="edu3"
+														value="<%=ur.getEdu3()%>" class="form-control"
+														id="inputCity">
+												</div>
 															</div>
 														</div>
 														<br> <br>
@@ -835,7 +851,12 @@ if (u == null) {
 													<textarea type="text" name="job_description"
 														class="form-control" id="inputZip"><%=ur.getJobDescription()%></textarea>
 												</div>
-
+<div class="col-md-4">
+													<label for="inputCity" class="form-label">Work Experience (Years)
+														</label> <input type="text" name="exp"
+														value="<%=ur.getExp()%>" class="form-control"
+														id="inputCity">
+												</div>
 
 
 

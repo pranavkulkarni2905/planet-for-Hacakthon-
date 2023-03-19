@@ -277,7 +277,7 @@ public class UserDAO {
 						rs.getString(21), rs.getString(22), rs.getString(23), rs.getString(24), rs.getString(25),
 						rs.getString(26), rs.getString(27), rs.getString(28), rs.getString(29), rs.getString(30),
 						rs.getString(31), rs.getString(32), rs.getString(33), rs.getString(34), rs.getString(35),
-						rs.getString(36));
+						rs.getString(36),rs.getString(37),rs.getString(38),rs.getString(39),rs.getString(40));
 
 			}
 
@@ -295,14 +295,14 @@ public class UserDAO {
 			String jobTitle, String jobLocation, String jobFromYear, String jobToYear, String jobDescription,
 			String skills, String languages, String projectTitle1, String projectFromYear1, String projectToYear1,
 			String projectDescription1, String projectUrl1, String projectTitle2, String projectFromYear2,
-			String projectToYear2, String projectDescription2, String projectUrl2, int id) {
+			String projectToYear2, String projectDescription2, String projectUrl2, int id,String exp,String edu1,String edu2,String edu3) {
 
 		con = DBConnection.getConnection();
 		int i = 0;
 		try {
 			System.out.println();
 			ps = con.prepareStatement(
-					"update user_resume set location=?,city=?,state=?,country=?,pincode=?,edu_title1=?,edu_from1=?,edu_to1=?,edu_desc1=?,edu_title2=?,edu_from2=?,edu_to2=?,edu_desc2=?,edu_title3=?,edu_from3=?,edu_to3=?,edu_desc3=?,job_title=?,job_from=?,job_to=?,job_desc=?,proj_title1=?,proj_from1=?,proj_to1=?,proj_desc1=?,proj_url1=?,proj_title2=?,proj_from2=?,proj_to2=?,proj_desc2=?,proj_url2=?,skills=?,languages=?,job_location=? where user_id=?");
+					"update user_resume set location=?,city=?,state=?,country=?,pincode=?,edu_title1=?,edu_from1=?,edu_to1=?,edu_desc1=?,edu_title2=?,edu_from2=?,edu_to2=?,edu_desc2=?,edu_title3=?,edu_from3=?,edu_to3=?,edu_desc3=?,job_title=?,job_from=?,job_to=?,job_desc=?,proj_title1=?,proj_from1=?,proj_to1=?,proj_desc1=?,proj_url1=?,proj_title2=?,proj_from2=?,proj_to2=?,proj_desc2=?,proj_url2=?,skills=?,languages=?,job_location=?,exp=?,edu1=?,edu2=?,edu3=? where user_id=?");
 
 			ps.setString(1, address);
 			ps.setString(2, city);
@@ -343,7 +343,11 @@ public class UserDAO {
 			ps.setString(32, skills);
 			ps.setString(33, languages);
 			ps.setString(34, jobLocation);
-			ps.setInt(35, id);
+			ps.setString(35, exp);
+			ps.setString(36, edu1);
+			ps.setString(37, edu2);
+			ps.setString(38, edu3);
+			ps.setInt(39, id);
 
 			i = ps.executeUpdate();
 		} catch (SQLException e) {
@@ -445,13 +449,13 @@ public class UserDAO {
 
 	}
 
-	public int jobApply(String fileName, String ques1, String ques2, int jobid, int recid, int userid) {
+	public int jobApply(String fileName, String ques1, String ques2, int jobid, int recid, int userid,String jfs) {
 		int i = 0;
 		Timestamp date = new Timestamp(new Date().getTime());
 		con = DBConnection.getConnection();
 		try {
 			ps = con.prepareStatement(
-					"insert into job_apply(recrutier_id ,user_id ,job_id ,resume_pdf,ques1,ques2,submitted_date) values(?,?,?,?,?,?,?)");
+					"insert into job_apply(recrutier_id ,user_id ,job_id ,resume_pdf,ques1,ques2,submitted_date,jfs) values(?,?,?,?,?,?,?,?)");
 			ps.setInt(1, recid);
 			ps.setInt(2, userid);
 			ps.setInt(3, jobid);
@@ -459,7 +463,7 @@ public class UserDAO {
 			ps.setString(5, ques1);
 			ps.setString(6, ques2);
 			ps.setTimestamp(7, date);
-
+			ps.setString(8, jfs);
 			i = ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -531,7 +535,7 @@ public class UserDAO {
 
 		con = DBConnection.getConnection();
 		try {
-			ps = con.prepareStatement("select * from job_apply where recrutier_id=?");
+			ps = con.prepareStatement("SELECT * FROM job_apply where recrutier_id=? ORDER BY CAST(jfs AS number) ");
 			ps.setInt(1, id);
 			rs = ps.executeQuery();
 
@@ -549,7 +553,7 @@ public class UserDAO {
 
 		con = DBConnection.getConnection();
 		try {
-			ps = con.prepareStatement("select * from job_apply where job_id=?");
+			ps = con.prepareStatement("SELECT * FROM job_apply  where job_id=? ORDER BY CAST(jfs AS number)");
 			ps.setInt(1, id);
 			rs = ps.executeQuery();
 
@@ -751,16 +755,17 @@ ps1.setInt(1, userid);
 
 	}
 
-	public int updateShortlistRejectStatus(int userid, int appid) {
+	public int updateShortlistRejectStatus(int userid, int appid,String reason) {
 		int i = 0;
 
 		con = DBConnection.getConnection();
 		try {
 			ps = con.prepareStatement(
-					"update job_apply set resume_status='No', apti_status='No',interview_status='No',flag=4 where user_id=? and app_id=?");
+					"update job_apply set resume_status='No', apti_status='No',interview_status='No',flag=4,reject_reason=? where user_id=? and app_id=?");
 			ps1 = con.prepareStatement("select * from job_user where user_id=?");
-			ps.setInt(1, userid);
-			ps.setInt(2, appid);
+			ps.setString(1, reason);
+			ps.setInt(2, userid);
+			ps.setInt(3, appid);
 ps1.setInt(1, userid);
 			
 			ResultSet rs=ps1.executeQuery();
@@ -780,7 +785,7 @@ ps1.setInt(1, userid);
 						+ "\r\n"
 						+ "While we’re not able to reach out to every applicant, our recruiting team will contact you if your skills and experience are a strong match for the role. In the meantime, join the conversation about job opportunities and life at WorkConnect on our LinkedIn page.\r\n"
 						+ "\r\n"
-						+ "We appreciate your interest in joining us.</p>\r\n"
+						+ "We appreciate your interest in joining us.</p>\r\n<b>Rejected Reason : "+reason+"</b><br>"
 						+ "\r\n"
 						+ "     <p style=\"margin-left: 25%;\">All The Best !!</p></a><br>\r\n"
 						
@@ -846,6 +851,7 @@ ps1.setInt(1, userid);
 		return rs;
 
 	}
+	
 
 	public ResultSet getStatusById(int id,int userid) {
 

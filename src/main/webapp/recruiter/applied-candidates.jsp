@@ -16,6 +16,7 @@ if (u == null) {
 <html lang="en">
 
 <head>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script
 	src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
@@ -90,6 +91,7 @@ if (u == null) {
 		String apti_status = request.getParameter("apti-status");
 		String interview_status = request.getParameter("interview-status");
 		String reject = request.getParameter("reject");
+		String reason=request.getParameter("reason");
 		
 		//ResultSet rs2 = ud1.getJobIdByRecIdAndUserId(id, u.getRecruiterId());
 		//ResultSet rs2 = ud1.getAllCandidatesById(u.getRecruiterId());
@@ -104,7 +106,7 @@ if (u == null) {
 		} else if (interview_status != null && flag!=3) {
 			i1 = ud1.updateShortlistInterviewStatus(id,appid);
 		} else if(flag!=4){
-			i1 = ud1.updateShortlistRejectStatus(id,appid);
+			i1 = ud1.updateShortlistRejectStatus(id,appid,reason);
 		}
 	} catch (Exception e) {
 
@@ -160,9 +162,10 @@ if (u == null) {
 					<th>SrNo</th>
 					<th>Application Id</th>
 					<th>CandidateName</th>
+					<th>JFS</th>
 					<th>JobTitle</th>
-					<th>Question1</th>
-					<th>Question2</th>
+					
+					<th>Subjective Answers</th>
 					<th>Aptitude Marks</th>
 					<th>Resume</th>
 					<th>WorkConnectProfile</th>
@@ -188,9 +191,21 @@ if (u == null) {
 					<td><%=i%></td>
 					<td><%=rs.getInt(1)%></td>
 					<td><%=u1.getFirst_name() + " " + u1.getLast_name()%></td>
+					
+					
+					<td style="color:green">
+					
+					<b><%=rs.getString(15)%> %</b>
+					
+						</td>
+						
 					<td><%=rs2.getString(4)%></td>
-					<td><%=rs.getString(6)%></td>
-					<td><%=rs.getString(7)%></td>
+					
+					<td><a href="subjective.jsp?que1=<%=rs.getString(6) %>&que2=<%=rs.getString(7) %>"
+						 class="btn btn-primary">View</a></td>
+					
+					
+					
 					<td>
 						<%
 						if (rs.getInt(9) == 0) {
@@ -201,10 +216,10 @@ if (u == null) {
  %>
 					</td>
 					<td><a href="../resume/<%=rs.getString(5)%>" target="_blank"
-						class="btn btn-primary">View</a></td>
+						><i class="bx bxs-show  " style='font-size:1rem'></i></a></td>
 
 					<td><a href="view-users-profile.jsp?userid=<%=rs.getInt(3)%>"
-						target="_blank" class="btn btn-primary">View</a></td>
+						target="_blank" ><i class="bx bxs-show  " style='font-size:1rem'></i></a></td>
 
 					<td><%=rs.getString(12)%></td>
 					
@@ -283,10 +298,13 @@ if (u == null) {
 					
 					<%
 						if (rs.getString(11)==null) {
-						%> <a
+						%> <%-- <a
 						href="applied-candidates.jsp?reject=No&id=<%=rs.getInt(3)%>&appid=<%=rs.getInt(1) %>&flag=<%=rs.getInt(14)%>"
 						 class="btn"><i class="bi bi-question-circle"
-							style="color: red"></i></a> <%
+							style="color: red"></i></a>  --%>
+							<button data-bs-toggle="modal" data-bs-target="#largeModal"><i class="bi bi-question-circle"
+							style="color: red"></i></button>
+							<%
  } else if(rs.getString(8).equals("Yes")&&rs.getString(10).equals("Yes")&&rs.getString(11).equals("Yes")){
 	 %>
 	 <i class="bi bi-check-circle" style="color: green">Selected</i>
@@ -298,6 +316,56 @@ if (u == null) {
  }
  %> 
 					</td>
+					
+					<div class="modal fade" id="largeModal"  tabindex="-1">
+						<div class="modal-dialog modal-dialog-centered modal-lg">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title">Rejected Reason</h5>
+									<button type="button" class="btn-close" data-bs-dismiss="modal"
+										aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+
+									<form class="row g-3 needs-validation"
+												action="applied-candidates.jsp?reject=No&id=<%=rs.getInt(3)%>&appid=<%=rs.getInt(1) %>&flag=<%=rs.getInt(14)%>" method="post"
+												novalidate>
+												<div class="col-md-8">
+													<label for="inputPassword5" class="form-label"><b>Specify reason to reject candidate</b></label>
+													<textarea type="text" name="reason"
+														class="form-control" id="inputPassword5"></textarea>
+												</div>
+												<button type="submit" class="btn btn-primary m-3"
+										data-bs-dismiss="modal">Submit</button>
+												</form>
+												
+								</div>
+								<div class="modal-footer">
+								
+									<button type="button" class="btn btn-secondary"
+										data-bs-dismiss="modal">Close</button>
+
+								</div>
+							</div>
+						</div>
+					</div>
+					<%-- <script>
+ function fun(){
+	 
+	 
+	 
+	Swal.fire({
+		    title: "Reject Reason",
+		    text: "Please specify why you are rejecting candidate",
+		    input: 'text',
+		    showCancelButton: true        
+		}).then((result) => {
+			if (result.value) {
+		     window.location.href="applied-candidates.jsp?reject=No&id=<%=rs.getInt(3)%>&appid=<%=rs.getInt(1) %>&flag=<%=rs.getInt(14)%>&reason=result.value";
+			}
+		}); 
+ }
+ </script> --%>
 				</tr>
 				<%
 				i++;
@@ -315,9 +383,10 @@ if (u == null) {
 					<th>SrNo</th>
 					<th>Application Id</th>
 					<th>CandidateName</th>
+					<th>JFS</th>
 					<th>JobTitle</th>
-					<th>Question1</th>
-					<th>Question2</th>
+					
+					<th>Subjective Answers</th>
 					<th>Aptitude Marks</th>
 					<th>Resume</th>
 					<th>WorkConnectProfile</th>
@@ -333,6 +402,8 @@ if (u == null) {
 
 	</main>
 	<!-- End #main -->
+	
+			
 
 	<!-- ======= Footer ======= -->
 	<footer id="footer" class="footer">

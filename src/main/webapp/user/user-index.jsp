@@ -1,3 +1,4 @@
+<%@page import="com.job.model.UserResume"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="java.util.GregorianCalendar"%>
 <%@page import="com.job.model.User"%>
@@ -11,7 +12,8 @@ if (u == null) {
 	//session.setAttribute("user-login", 404);
 	response.sendRedirect("404.jsp");
 }
-%>  
+%> 
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -70,6 +72,61 @@ $(document).ready(function(){
 	<%
 	String uname = (String) session.getAttribute("user-uname");
 	%>
+	
+<%
+UserDAO ud=new UserDAO();
+UserResume ur=ud.getUserResumeDataById(u.getUser_id());
+
+if(ur.getEdu1()==null||ur.getEdu2()==null||ur.getEdu3()==null){
+	%>
+	<div class="toast-container" style="position: absolute; top: 10px; right: 10px;">
+        <div class="toast fade show">
+            <div class="toast-header bg-warning text-white">
+                <strong class="me-auto"><i class="bi-globe"></i> Reminder!</strong>
+                <small>just now</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body">
+               <h5><b> Please Complete Education Details for latest job updates!            </b></h5>
+            </div>
+        </div>
+        </div>
+	<% 
+}if(ur.getSkills()==null){
+	%>
+	<div class="toast-container" style="position: absolute; top: 10px; right: 10px;">
+        <div class="toast fade show">
+            <div class="toast-header bg-warning text-white">
+                <strong class="me-auto"><i class="bi-globe"></i> Reminder!</strong>
+                <small>just now</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body">
+               <h5><b> Please Updates Your Skills for latest job updates!            </b></h5>
+            </div>
+        </div>
+        </div>
+	<% 
+}if(ur.getExp()==null){
+	%>
+	<div class="toast-container" style="position: absolute; top: 10px; right: 10px;">
+        <div class="toast fade show">
+            <div class="toast-header bg-warning text-white">
+                <strong class="me-auto"><i class="bi-globe"></i> Reminder!</strong>
+                <small>just now</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body">
+               <h5><b> Enter Work Experience for latest job updates!            </b></h5>
+            </div>
+        </div>
+        </div>
+	<% 
+}
+
+
+%> 
+
 
 
 	<%

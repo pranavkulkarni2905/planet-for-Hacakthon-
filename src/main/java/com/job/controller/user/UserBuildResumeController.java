@@ -75,6 +75,11 @@ public class UserBuildResumeController extends HttpServlet {
 
 		String skills = request.getParameter("skills");
 		String languages = request.getParameter("languages");
+		
+		String exp=request.getParameter("exp");
+		String edu1=request.getParameter("edu1");
+		String edu2=request.getParameter("edu2");
+		String edu3=request.getParameter("edu3");
 
 		UserDAO ud = new UserDAO();
 		HttpSession session = request.getSession();
@@ -83,7 +88,7 @@ public class UserBuildResumeController extends HttpServlet {
 				educationDescription2, eduactionTitle3, educationFromYear3, educationToYear3, educationDescription3,
 				jobTitle, jobLocation, jobFromYear, jobToYear, jobDescription, skills, languages, projectTitle1,
 				projectFromYear1, projectToYear1, projectDescription1, projectUrl1, projectTitle2, projectFromYear2,
-				projectToYear2, projectDescription2, projectUrl2, id);
+				projectToYear2, projectDescription2, projectUrl2, id,exp,edu1,edu2,edu3);
 
 		if (i > 0) {
 			session.setAttribute("build-resume-success", true);

@@ -62,6 +62,7 @@ job_location varchar2(4000),
 job_from varchar2(4000),
 job_to varchar2(4000),
 job_desc varchar2(4000),
+
 skills varchar2(4000),
 languages varchar2(4000),
 proj_title1 varchar2(4000),
@@ -75,6 +76,13 @@ proj_to2 varchar2(4000),
 proj_desc2 varchar2(4000),
 proj_url2 varchar2(4000)
 );
+
+alter table edu1 add about varchar2(4000);
+alter table edu2 add about varchar2(4000);
+alter table edu3 add about varchar2(4000);
+
+alter table exp add about varchar2(4000);
+
 
 
 create sequence user_resume_seq

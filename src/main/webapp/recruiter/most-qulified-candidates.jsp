@@ -1,3 +1,4 @@
+<%@page import="com.job.model.UserResume"%>
 <%@page import="com.google.zxing.Result"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="com.job.DAO.UserDAO"%>
@@ -159,6 +160,7 @@ if (u == null) {
 					<th>SrNo</th>
 					<th>Application Id</th>
 					<th>CandidateName</th>
+					<th>JFS</th>
 					<th>JobTitle</th>
 					<th>Question1</th>
 					<th>Question2</th>
@@ -178,7 +180,7 @@ if (u == null) {
 				int id=Integer.parseInt(request.getParameter("id"));
 				
 				String requirements="";
-				boolean b;
+				boolean b=false;
 				
 				try{
 				UserDAO ud = new UserDAO();
@@ -186,6 +188,7 @@ if (u == null) {
 				int i = 1;
 				String skills="";
 				int cnt =0;
+				float per=0;
 				while (rs.next()) {
 					
 					User u1 = ud.getUserDataById(rs.getInt(3));
@@ -194,47 +197,41 @@ if (u == null) {
 					
 					int userId=rs.getInt(3);
 					
-					ResultSet rsSet=ud.getSkillByUserId(rs.getInt(3));
-					if(rsSet.next()){
-						 skills=rsSet.getString(1);
-					}
+					UserResume ur=ud.getUserResumeDataById(rs.getInt(3));
+					
+						 skills=ur.getSkills();
+						String edu1=ur.getEdu1();
+						String edu2=ur.getEdu2();
+						String edu3=ur.getEdu3();
+						 String exp=ur.getExp();
+					
 					
 					
 					//System.out.print(skills);
 					
 					ResultSet resreq=ud.getJobDetailsByJobId(id);
+					String education="";
 					if(resreq.next()){
 						requirements=resreq.getString(11);
+						education=resreq.getString(13);
+						
 					//	System.out.print(requirements);
 					}
 					
-					/* String[] words = requirements.split(" ");
-					int rlen=words.length;
-					
-					for(int x=0;i<words.length;x++){
-						System.out.print("\nreq: "+words[x]);
-					} 
-					
-					//int numberOfWords = words.length;
-					System.out.print(skills);
-					
-					String[] keywords = skills.split(" ");
-					for(int x=0;i<keywords.length;x++){
-						System.out.print("\nlabel: "+keywords[x]);
-					}
 					
 					
-					for (String keyword : keywords) {
-					    if (requirements.contains(keyword)) {
-					       cnt++;
-					    } else {
-					        
-					    }
-					}
-					*/
+					
 					String[] keywords = skills.split(" ");
 					String[] words = requirements.split(" ");
+					String[] edu = education.split(" ");
+					
+					for(int k=0;k<edu.length;k++){
+						
+						System.out.println(edu[k]);
+					}
 					int rlen=words.length;
+					
+					
 					
 					for(int k=0;k<words.length;k++){
 						System.out.println(words[k]);
@@ -254,23 +251,62 @@ if (u == null) {
 
 						}
 					}
-					
 					System.out.print("count "+cnt);
 					System.out.print("rlen "+rlen);
-					if(cnt>=rlen/2){
+					if(cnt==rlen){
+						per+=38;
 						b=true;
-					}else{
+					}
+					else if(cnt>=rlen/2){
+						per+=19;
+						b=true;
+					}
+					else{
 						b=false;
 					}
+					
+					for(int k=0;k<edu.length;k++){
+					
+						if(edu[k].equals(edu1)){
+							per+=11;
+							System.out.println(per);
+							System.out.println(cnt);
+						}
+						if(edu[k].equals(edu2)){
+							per+=11;
+						}
+						if(edu[k].equals(edu3)){
+							per+=11;
+						}
+					}
+					int x=Integer.parseInt(exp);
+					if(x==1){
+						per+=7;
+					}else if( x>=2&& x<5){
+						per+=17;
+					}
+					else if(x>=5){
+						per+=25;
+					}else{
+						
+					}
+					
+					
 					if (rs2.next() && b ) {
 				%>
 				<tr>
 					<td><%=i%></td>
 					<td><%=rs.getInt(1)%></td>
 					<td><%=u1.getFirst_name() + " " + u1.getLast_name()%></td>
+					<td style="color:green">
+					
+					<b><%=rs.getString(15)%> %</b>
+					
+						</td>
 					<td><%=rs2.getString(4)%></td>
 					<td><%=rs.getString(6)%></td>
 					<td><%=rs.getString(7)%></td>
+					
 					<td>
 						<%
 						if (rs.getInt(9) == 0) {
@@ -395,6 +431,7 @@ if (u == null) {
 					<th>SrNo</th>
 					<th>Application Id</th>
 					<th>CandidateName</th>
+					<th>JFS</th>
 					<th>JobTitle</th>
 					<th>Question1</th>
 					<th>Question2</th>

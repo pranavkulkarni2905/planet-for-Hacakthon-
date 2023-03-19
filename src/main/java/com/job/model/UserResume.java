@@ -37,7 +37,7 @@ public class UserResume {
 	String projectDescription2;
 	String projectUrl2;
 	String skills;
-	String languages;
+	String languages,exp,edu1,edu2,edu3;
 
 	public UserResume(int resume_id, int user_id, String location, String city, String state, String country,
 			String pincode, String eduactionTitle1, String educationFromYear1, String educationToYear1,
@@ -46,7 +46,7 @@ public class UserResume {
 			String educationDescription3, String jobTitle, String jobLocation, String jobFromYear, String jobToYear,
 			String jobDescription, String skills, String languages, String projectTitle1, String projectFromYear1,
 			String projectToYear1, String projectDescription1, String projectUrl1, String projectTitle2,
-			String projectFromYear2, String projectToYear2, String projectDescription2, String projectUrl2) {
+			String projectFromYear2, String projectToYear2, String projectDescription2, String projectUrl2,String exp,String edu1,String edu2,String edu3) {
 		super();
 		this.resume_id = resume_id;
 		this.user_id = user_id;
@@ -84,6 +84,42 @@ public class UserResume {
 		this.projectUrl2 = projectUrl2;
 		this.skills = skills;
 		this.languages = languages;
+		this.exp=exp;
+		this.edu1=edu1;
+		this.edu2=edu2;
+		this.edu3=edu3;
+	}
+
+	public String getExp() {
+		return exp;
+	}
+
+	public void setExp(String exp) {
+		this.exp = exp;
+	}
+
+	public String getEdu1() {
+		return edu1;
+	}
+
+	public void setEdu1(String edu1) {
+		this.edu1 = edu1;
+	}
+
+	public String getEdu2() {
+		return edu2;
+	}
+
+	public void setEdu2(String edu2) {
+		this.edu2 = edu2;
+	}
+
+	public String getEdu3() {
+		return edu3;
+	}
+
+	public void setEdu3(String edu3) {
+		this.edu3 = edu3;
 	}
 
 	public int getResume_id() {
